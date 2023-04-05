@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int num;
+    srand(time(0)); // seed the random number generator with current time
+    num = rand() % 10 + 1; // generate a random number between 1 and 10
+
+    printf("RANDOM NUMBER GUESS GAME\n");
+
+    int count = 3; // set the maximum number of guesses
+    int ans;
+
+    for (;;) // infinite loop until the correct number is guessed or the maximum number of guesses is reached
+    {
+        printf("\nGuess Number (1-10):\n");
+        if (scanf("%d", &ans) != 1) { // check if input is valid
+            printf("Invalid input. Please enter a number between 1 and 10.\n");
+            fflush(stdin); // clear input buffer
+            continue;
+        }
+        if (ans < 1 || ans > 10) { // check if input is within range
+            printf("Number out of range. Please enter a number between 1 and 10.\n");
+            continue;
+        }
+        printf("\n");
+
+        if (ans == num) // check if guess is correct
+        {
+            printf("Congrats! You have guessed the correct number...\n");
+            printf("The number is: %d\n", num);
+            break;
+        }
+
+        printf("Oops Wrong guess...\nYou have %d", count);
+        printf(" tries left.\n");
+        count--;
+
+        if (count == 0) // check if maximum number of guesses is reached
+        {
+            printf("Tries over... \nThe number was: %d\n", num);
+            break;
+        }
+
+        if (ans > num) // give a hint if the guess is too high
+        {
+            printf("Hint: The number is lower than %d.\n", ans);
+        }
+        else // give a hint if the guess is too low
+        {
+            printf("Hint: The number is higher than %d.\n", ans);
+        }
+
+        if (count == 2) // give a second chance by revealing the first digit of the number
+        {
+            printf("Here's a hint: The first digit of the number is %d.\n", num/10);
+        }
+        else if (count == 1) // give a third chance by revealing the second digit of the number
+        {
+            printf("Last chance! The second digit of the number is %d.\n", num%10);
+        }
+    }
+
+    return 0;
+}
